@@ -29,6 +29,21 @@ class Teamhermes(TethysAppBase):
                 url='teamhermes',
                 controller='teamhermes.controllers.home'
             ),
+            UrlMap(
+                name='proposal',
+                url='teamhermes/proposal',
+                controller='teamhermes.controllers.proposal'
+            ),
+            UrlMap(
+                name='mockup',
+                url='teamhermes/mockup',
+                controller='teamhermes.controllers.mockup'
+            ),
+            UrlMap(
+                name='router',
+                url='teamhermes/router',
+                controller='teamhermes.controllers.router'
+            ),
         )
 
         return url_maps
