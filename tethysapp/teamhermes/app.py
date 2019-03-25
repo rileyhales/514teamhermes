@@ -8,10 +8,10 @@ class Teamhermes(TethysAppBase):
 
     name = 'Emergency Services Rerouter'
     index = 'teamhermes:home'
-    icon = 'teamhermes/images/icon.gif'
+    icon = 'teamhermes/images/42545-ambulance-icon.png'
     package = 'teamhermes'
     root_url = 'teamhermes'
-    color = '#2980b9'
+    color = '#FF2828'
     description = 'W19 CEEN 514 Team Hermes'
     tags = ''
     enable_feedback = False
