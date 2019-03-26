@@ -9,13 +9,24 @@ $(document).ready(function () {
         "esri/tasks/support/LinearUnit",
         "esri/tasks/support/FeatureSet",
         "esri/views/MapView",
-        "dojo/domReady!"
-    ], function (Map, GraphicsLayer, Graphic, Point, Geoprocessor, LinearUnit, FeatureSet, MapView) {
+        "esri/layers/MapImageLayer",
+        "esri/widgets/Legend",
+        // "dojo/domReady!"
+    ], function (Map, GraphicsLayer, Graphic, Point, Geoprocessor, LinearUnit, FeatureSet, MapView, MapImageLayer,
+                 Legend) {
+
+        // Layers
+        const policeLayerURL = "http://geoserver2.byu.edu/arcgis/rest/services/TeamHermes/LawEnforcement/MapServer";
+        const policeLayer = new MapImageLayer({
+            url: policeLayerURL,
+        });
 
         //a map with basemap
         const map = new Map({
-            basemap: "streets"
+            basemap: "streets",
         });
+
+        map.add(policeLayer);
 
         //a graphics layer to show input point and output polygon
         const graphicsLayer = new GraphicsLayer();
@@ -27,6 +38,17 @@ $(document).ready(function () {
             center: [-111.647070, 40.251468], //40.251468, -111.647070
             zoom: 10
         });
+
+        const legend = new Legend({
+            view: view,
+            layerInfos: [{
+                    layer: policeLayer,
+                    title: "Police",
+            }]
+        });
+
+        // Add Legend to Map
+        view.ui.add(legend, "bottom-right");
 
         // symbol for input point
         const markerSymbol = {
@@ -98,7 +120,7 @@ $(document).ready(function () {
             const lat = parseFloat($("#lat").text().substr(12));
             const lon = parseFloat($("#lon").text().substr(13));
 
-            if ( isNaN(lat) && isNaN(lon) ) {  // User did not click a point
+            if (isNaN(lat) && isNaN(lon)) {  // User did not click a point
 
                 alert("Please place a point on the map by clicking it.");
 
