@@ -2,41 +2,44 @@
 {% load tethys_gizmos %}
 
 {% block header_buttons %}
-  <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
-    <a data-toggle="modal" data-target="#help-modal"><span class="glyphicon glyphicon-question-sign"></span></a>
-  </div>
+    <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
+        <a data-toggle="modal" data-target="#help-modal"><span class="glyphicon glyphicon-question-sign"></span></a>
+    </div>
 {% endblock %}
 
 {% block app_content %}
-  <h1>Emergency Services Rerouter App</h1><br>
-  <h2>Team Hermes:</h2>
-  <h3>Riley Hales</h3>
-  <h3>Wade Roberts</h3>
-  <h3>Mitchell Hadfield</h3><br>
-  <h2>App Explanation</h2>
-  <p>The user selects a location in Utah County. The user also selects the desired emergency responder (police, fire, or EMT). The user may add road blockages if desired. The app then will return to the user the fastest route to the selected location from the closest emergency responder that was selected by the user. </p>
+    <h1>Emergency Services Rerouter App</h1><br>
+    <h2>Team Hermes:</h2>
+    <h3>Riley Hales</h3>
+    <h3>Wade Roberts</h3>
+    <h3>Mitchell Hadfield</h3><br>
+    <h2>App Explanation</h2>
+    <p>The user selects a location in Utah County. The user also selects the desired emergency responder (police, fire,
+        or EMT). The user may add road blockages if desired. The app then will return to the user the fastest route to
+        the selected location from the closest emergency responder that was selected by the user. </p>
 
 {% endblock %}
 
 {# Use the after_app_content block for modals #}
 {% block after_app_content %}
-  <!-- Example Modal -->
-  <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-label">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h5 class="modal-title" id="help-modal-label">Example Modal</h5>
-        </div>
-        <div class="modal-body">
+    <!-- Example Modal -->
+    <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-label">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" id="help-modal-label">Example Modal</h5>
+                </div>
+                <div class="modal-body">
 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-        </div>
-      </div>
     </div>
-  </div>
 {% endblock %}
 

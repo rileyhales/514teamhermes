@@ -5,8 +5,8 @@
 {% block title %}{{ tethys_app.name }}{% endblock %}
 
 {% block app_icon %}
-  {# The path you provided in your app.py is accessible through the tethys_app.icon context variable #}
-  <img src="{% static tethys_app.icon %}">
+    {# The path you provided in your app.py is accessible through the tethys_app.icon context variable #}
+    <img src="{% static tethys_app.icon %}">
 {% endblock %}
 
 {# The name you provided in your app.py is accessible through the tethys_app.name context variable #}
@@ -14,30 +14,61 @@
 
 {% block app_navigation_items %}
 
-  {% url "teamhermes:home" as home_url %}
-  {% url "teamhermes:proposal" as proposal_url %}
-  {% url "teamhermes:mockup" as mockup_url %}
-  {% url "teamhermes:router" as router_url %}
+    {% url "teamhermes:home" as home_url %}
+    {% url "teamhermes:proposal" as proposal_url %}
+    {% url "teamhermes:mockup" as mockup_url %}
+    {% url "teamhermes:router" as router_url %}
 
-  <li class="title">App Navigation</li>
-  <li class="{% if request.path == home_url %}active{% endif %}"><a href="{{ home_url }}">Home</a></li>
-  <li class="{% if request.path == proposal_url %}active{% endif %}"><a href="{{ proposal_url }}">Proposal</a></li>
-  <li class="{% if request.path == mockup_url %}active{% endif %}"><a href="{{ mockup_url }}">Mockups</a></li>
-  <li class="{% if request.path == router_url %}active{% endif %}"><a href="{{ router_url }}">Router</a></li>
+    <li class="title">App Navigation</li>
+    <li class="{% if request.path == home_url %}active{% endif %}"><a href="{{ home_url }}">Home</a></li>
+    <li class="{% if request.path == proposal_url %}active{% endif %}"><a href="{{ proposal_url }}">Proposal</a></li>
+    <li class="{% if request.path == mockup_url %}active{% endif %}"><a href="{{ mockup_url }}">Mockups</a></li>
+    <li class="{% if request.path == router_url %}active{% endif %}"><a href="{{ router_url }}">Router</a></li>
+
+    {# Buttons for the Router Page #}
+    {% if request.path == router_url %}
+
+        <br><br>
+        <button id="process-request" type="button" class="btn btn-dark center-block">Analyze</button>
+        <br>
+        <div id="loader" class="loader center" style="display: none;"></div>
+        <br>
+
+        <div id="point-location" style="display: none;">
+            <li class="title">Point Coordinates:</li>
+            <div id="lat"></div>
+            <div id="lon"></div>
+        </div>
+
+    {% endif %}
+
 {% endblock %}
 
 {% block app_content %}
 {% endblock %}
 
 {% block app_actions %}
+
+    <button type="button" class="btn btn-light">Save Results</button>
+    <button type="button" class="btn btn-light">Download Results</button>
+
 {% endblock %}
 
 {% block content_dependent_styles %}
-  {{ block.super }}
-  <link href="{% static 'teamhermes/css/main.css' %}" rel="stylesheet"/>
+    {{ block.super }}
+    <link rel="stylesheet" href="https://js.arcgis.com/4.6/esri/css/main.css">
+    <link href="{% static 'teamhermes/css/main.css' %}" rel="stylesheet"/>
 {% endblock %}
 
 {% block scripts %}
-  {{ block.super }}
-  <script src="{% static 'teamhermes/js/main.js' %}" type="text/javascript"></script>
+    {{ block.super }}
+    <script src="https://js.arcgis.com/4.6/"></script>
+
+    {# Conditional Script Sources#}
+    {% url 'teamhermes:router' as router %}
+
+    {% if request.path == router %}
+        <script src="{% static 'teamhermes/js/router.js' %}" type="text/javascript"></script>
+    {% endif %}
+
 {% endblock %}
