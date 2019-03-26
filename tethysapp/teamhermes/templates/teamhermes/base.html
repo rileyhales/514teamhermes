@@ -28,7 +28,13 @@
     {# Buttons for the Router Page #}
     {% if request.path == router_url %}
 
-        <br><br>
+        <br>
+        <div id="checkwrapper" style="text-align: center; font-size: large">
+            <input type="checkbox" id="medical" value="medical">Medical
+            <br><input type="checkbox" id="fire" value="fire">Fire
+            <br><input type="checkbox" id="police" value="police">Police
+            <br>
+        </div>
         <button id="process-request" type="button" class="btn btn-dark center-block">Analyze</button>
         <br>
         <div id="loader" class="loader center" style="display: none;"></div>
