@@ -85,6 +85,7 @@ $(document).ready(function () {
             $("#lon").html("<p style='margin-left: 15px'>- Longitude: " + lon + "</p>");
         }
 
+        // On click event for the Analyze button
         $(document).ready(function () {
             $("#process-request").click(function () {
                 processRequest();
