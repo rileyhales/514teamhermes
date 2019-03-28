@@ -12,7 +12,8 @@ class Teamhermes(TethysAppBase):
     package = 'teamhermes'
     root_url = 'teamhermes'
     color = '#FF2828'
-    description = 'W19 CEEN 514 Team Hermes'
+    description = 'This web app gives the nearest route to a few different emergency services from a point given by ' \
+                  'the user. Users can also add obstacles to similuate different emergency situations.'
     tags = ''
     enable_feedback = False
     feedback_emails = []
