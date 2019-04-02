@@ -10,10 +10,9 @@ $(document).ready(function () {
         "esri/tasks/support/FeatureSet",
         "esri/views/MapView",
         "esri/layers/MapImageLayer",
-        "esri/widgets/Legend",
-        // "dojo/domReady!"
+        "esri/widgets/LayerList",
     ], function (Map, GraphicsLayer, Graphic, Point, Geoprocessor, LinearUnit, FeatureSet, MapView, MapImageLayer,
-                 Legend) {
+                 LayerList) {
 
         // Layers
         const policeLayerURL = "http://geoserver2.byu.edu/arcgis/rest/services/TeamHermes/LawEnforcement/MapServer";
@@ -21,16 +20,24 @@ $(document).ready(function () {
             url: policeLayerURL,
         });
 
-        //a map with basemap
+        const fireStationURL = "http://geoserver2.byu.edu/arcgis/rest/services/TeamHermes/Fire_Stations/MapServer";
+        const fireStationLayer = new MapImageLayer({
+            url: fireStationURL,
+        });
+
+        const emsLayerURL = "http://geoserver2.byu.edu/arcgis/rest/services/TeamHermes/EMS_UTC/MapServer";
+        const emsLayer = new MapImageLayer({
+            url: emsLayerURL,
+        });
+
+        // The map with basemap
         const map = new Map({
             basemap: "streets",
         });
 
         map.add(policeLayer);
-
-        //a graphics layer to show input point and output polygon
-        const graphicsLayer = new GraphicsLayer();
-        map.add(graphicsLayer);
+        map.add(fireStationLayer);
+        map.add(emsLayer);
 
         const view = new MapView({
             container: "viewDiv",
@@ -39,16 +46,19 @@ $(document).ready(function () {
             zoom: 10
         });
 
-        const legend = new Legend({
+        // a graphics layer to show input point and output polygon
+        const graphicsLayer = new GraphicsLayer({
+            title: "User Input and Results Layer"
+        });
+        map.add(graphicsLayer);
+
+        const layerList = new LayerList({
             view: view,
-            layerInfos: [{
-                    layer: policeLayer,
-                    title: "Police",
-            }]
         });
 
-        // Add Legend to Map
-        view.ui.add(legend, "bottom-right");
+        view.ui.add(layerList, {
+            position: "top-right",
+        });
 
         // symbol for input point
         const markerSymbol = {
@@ -154,7 +164,6 @@ $(document).ready(function () {
 
         function completeCallback(result) {
             gp.getResultData(result.jobId, "Routes").then(drawResult, drawResultErrBack);
-
         }
 
         function drawResult(data) {
