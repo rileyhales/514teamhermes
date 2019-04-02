@@ -18,16 +18,19 @@ $(document).ready(function () {
         const policeLayerURL = "http://geoserver2.byu.edu/arcgis/rest/services/TeamHermes/LawEnforcement/MapServer";
         const policeLayer = new MapImageLayer({
             url: policeLayerURL,
+            title: "Police Stations in Utah County"
         });
 
         const fireStationURL = "http://geoserver2.byu.edu/arcgis/rest/services/TeamHermes/Fire_Stations/MapServer";
         const fireStationLayer = new MapImageLayer({
             url: fireStationURL,
+            title: "Fire Stations in Utah County"
         });
 
         const emsLayerURL = "http://geoserver2.byu.edu/arcgis/rest/services/TeamHermes/EMS_UTC/MapServer";
         const emsLayer = new MapImageLayer({
             url: emsLayerURL,
+            title: "EMS Locations in Utah County"
         });
 
         // The map with basemap
@@ -170,6 +173,7 @@ $(document).ready(function () {
 
             console.log("Drawing Shape");
             const polygon_feature = data.value.features[0];
+            console.log(polygon_feature);
             polygon_feature.symbol = fillSymbol;
             graphicsLayer.add(polygon_feature);
 

@@ -55,8 +55,15 @@
 
 {% block app_actions %}
 
-    <button type="button" class="btn btn-light">Save Results</button>
-    <button type="button" class="btn btn-light">Download Results</button>
+    {% url "teamhermes:home" as home_url %}
+    {% url "teamhermes:proposal" as proposal_url %}
+    {% url "teamhermes:mockup" as mockup_url %}
+    {% url "teamhermes:router" as router_url %}
+
+    {% if request.path == router_url %}
+        <button type="button" class="btn btn-light">Save Results</button>
+        <button type="button" class="btn btn-light">Download Results</button>
+    {% endif %}
 
 {% endblock %}
 
