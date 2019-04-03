@@ -27,14 +27,25 @@
 
     {# Buttons for the Router Page #}
     {% if request.path == router_url %}
-
-        <br>
-        <div id="checkwrapper" style="text-align: center; font-size: large">
-            <input type="checkbox" id="medical" value="medical">Medical
-            <br><input type="checkbox" id="fire" value="fire">Fire
-            <br><input type="checkbox" id="police" value="police">Police
-            <br>
+        <li class="title" style="text-align: center">Route Options</li>
+        <div id="checkwrapper" style="font-size: large">
+            <table>
+                <thead>Pick Emergency Services</thead>
+                <tr>
+                    <td><input type="checkbox" name="medical" id="medical" class="css-checkbox"/>
+                        <label for="medical" class="css-label">Medical</label></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" name="fire" id="fire" class="css-checkbox" checked="checked"/>
+                        <label for="fire" class="css-label">Fire</label></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" name="police" id="police" class="css-checkbox"/>
+                        <label for="police" class="css-label">Police</label></td>
+                </tr>
+            </table>
         </div>
+
         <button id="process-request" type="button" class="btn btn-dark center-block">Analyze</button>
         <br>
         <div id="loader" class="loader center" style="display: none;"></div>
@@ -45,7 +56,6 @@
             <div id="lat"></div>
             <div id="lon"></div>
         </div>
-
     {% endif %}
 
 {% endblock %}
@@ -71,6 +81,7 @@
     {{ block.super }}
     <link rel="stylesheet" href="https://js.arcgis.com/4.10/esri/css/main.css">
     <link href="{% static 'teamhermes/css/main.css' %}" rel="stylesheet"/>
+    <link href="{% static 'teamhermes/css/checkboxstyles.css' %}" rel="stylesheet"/>
 {% endblock %}
 
 {% block scripts %}
