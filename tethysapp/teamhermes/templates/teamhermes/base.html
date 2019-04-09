@@ -85,6 +85,20 @@
             <div id="lat"></div>
             <div id="lon"></div>
         </div>
+
+        <br>
+
+        {# Save Results Button #}
+        <button id="save-results" type="button" class="btn btn-light center-block" style="display: none">
+            Save Results
+        </button>
+
+        <br>
+        <br>
+
+        {# Save results status text #}
+        <div id="save-results-status"></div>
+
     {% endif %}
 
 {% endblock %}
@@ -100,8 +114,7 @@
     {% url "teamhermes:router" as router_url %}
 
     {% if request.path == router_url %}
-        <button type="button" class="btn btn-light">Save Results</button>
-        <button type="button" class="btn btn-light">Download Results</button>
+
     {% endif %}
 
 {% endblock %}
@@ -117,6 +130,8 @@
 
 {% block scripts %}
     {{ block.super }}
+    {# Allows csrf verification with AJAX #}
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://js.arcgis.com/4.10/"></script>
 
     {# Conditional Script Sources#}

@@ -1,4 +1,5 @@
 from tethys_sdk.base import TethysAppBase, url_map_maker
+from tethys_sdk.app_settings import PersistentStoreDatabaseSetting
 
 
 class Teamhermes(TethysAppBase):
@@ -45,6 +46,26 @@ class Teamhermes(TethysAppBase):
                 url='teamhermes/router',
                 controller='teamhermes.controllers.router'
             ),
+
+            # Ajax Maps
+            UrlMap(name='save_graphics_layer',
+                   url='teamhermes/save_graphics_layer',
+                   controller='teamhermes.ajax.save_graphics_layer'),
         )
 
         return url_maps
+
+    def persistent_store_settings(self):
+        """
+        Define Persistent Store Settings.
+        """
+        ps_settings = (
+            PersistentStoreDatabaseSetting(
+                name='primary_db',
+                description='primary database',
+                initializer='teamhermes.model.init_primary_db',
+                required=True
+            ),
+        )
+
+        return ps_settings

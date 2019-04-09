@@ -1,3 +1,19 @@
+// Getting the csrf token
+let csrftoken = Cookies.get('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
 // Main Function for Map
 $(document).ready(function () {
     require([
@@ -136,6 +152,13 @@ $(document).ready(function () {
             });
         });
 
+        // On click event for the Save Analysis button
+        $(document).ready(function () {
+            $("#save-results").click(function () {
+                saveResults();
+            });
+        });
+
         function processRequest() {
 
 
@@ -184,9 +207,11 @@ $(document).ready(function () {
         function completeCallback_ems(result) {
             gpems.getResultData(result.jobId, "Routes").then(drawResult, drawResultErrBack);
         }
+
         function completeCallback_fire(result) {
             gpfire.getResultData(result.jobId, "Routes").then(drawResult, drawResultErrBack);
         }
+
         function completeCallback_police(result) {
             gppolice.getResultData(result.jobId, "Routes").then(drawResult, drawResultErrBack);
         }
@@ -199,6 +224,7 @@ $(document).ready(function () {
             graphicsLayer.add(polygon_feature);
 
             $("#loader").fadeOut();
+            $("#save-results").fadeIn();
         }
 
         function drawResultErrBack(err) {
@@ -213,6 +239,30 @@ $(document).ready(function () {
 
         function errBack(err) {
             console.log("gp error: ", err);
+        }
+
+        function saveResults() {
+            $.ajax({
+                url: "/apps/teamhermes/save_graphics_layer/", // the endpoint
+                type: "POST", // http method
+                data: JSON.stringify(graphicsLayer.graphics), // data sent with the post request, the form data from above
+                dataType: "json",
+
+                // handle a successful response
+                success: function (resp) {
+                    if (resp.status === "success") {
+                        $("#save-results-status").html(`<p style="margin-left: 15px">Results Saved Successfully</p>`)
+                    } else {
+                        $("#save-results-status").html(`<p style="margin-left: 15px">
+                                                            The following error occured: ${resp.error_message}
+                                                        </p>`)
+                    }
+                },
+                // handle a non-successful response
+                error: function (xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                }
+            });
         }
     });
 });
