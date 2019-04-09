@@ -27,24 +27,53 @@
 
     {# Buttons for the Router Page #}
     {% if request.path == router_url %}
-        <li class="title" style="text-align: center">Route Options</li>
-        <div id="checkwrapper" style="font-size: large">
-            <table>
-                <thead>Pick Emergency Services</thead>
-                <tr>
-                    <td><input type="checkbox" name="medical" id="medical" class="css-checkbox"/>
-                        <label for="medical" class="css-label">Medical</label></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" name="fire" id="fire" class="css-checkbox"/>
-                        <label for="fire" class="css-label">Fire</label></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" name="police" id="police" class="css-checkbox"/>
-                        <label for="police" class="css-label">Police</label></td>
-                </tr>
-            </table>
+        <li class="title">Route Options</li>
+        {#        <div id="checkwrapper" style="font-size: large">#}
+        {#            <table>#}
+        {#                <thead>Pick Emergency Services</thead>#}
+        {#                <tr>#}
+        {#                    <td><input type="checkbox" name="medical" id="medical" class="css-checkbox"/>#}
+        {#                        <label for="medical" class="css-label">Medical</label></td>#}
+        {#                </tr>#}
+        {#                <tr>#}
+        {#                    <td><input type="checkbox" name="fire" id="fire" class="css-checkbox"/>#}
+        {#                        <label for="fire" class="css-label">Fire</label></td>#}
+        {#                </tr>#}
+        {#                <tr>#}
+        {#                    <td><input type="checkbox" name="police" id="police" class="css-checkbox"/>#}
+        {#                        <label for="police" class="css-label">Police</label></td>#}
+        {#                </tr>#}
+        {#            </table>#}
+        {#        </div>#}
+        <div style="margin-left: 15px">
+            <p>Pick Emergency Services</p>
+
+            <div class="pretty p-default p-thick p-pulse">
+                <input type="checkbox" name="medical" id="medical"/>
+                <div class="state p-danger">
+                    <i class="icon mdi mdi-check"></i>
+                    <label>Medical</label>
+                </div>
+            </div>
+
+            <div class="pretty p-default p-thick p-pulse">
+                <input type="checkbox" name="fire" id="fire"/>
+                <div class="state p-danger">
+                    <i class="icon mdi mdi-check"></i>
+                    <label>Fire</label>
+                </div>
+            </div>
+
+            <div class="pretty p-default p-thick p-pulse">
+                <input type="checkbox" name="police" id="police"/>
+                <div class="state p-danger">
+                    <i class="icon mdi mdi-check"></i>
+                    <label>Police</label>
+                </div>
+            </div>
         </div>
+
+        <br>
 
         <button id="process-request" type="button" class="btn btn-dark center-block">Analyze</button>
         <br>
@@ -80,8 +109,10 @@
 {% block content_dependent_styles %}
     {{ block.super }}
     <link rel="stylesheet" href="https://js.arcgis.com/4.10/esri/css/main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
     <link href="{% static 'teamhermes/css/main.css' %}" rel="stylesheet"/>
-    <link href="{% static 'teamhermes/css/checkboxstyles.css' %}" rel="stylesheet"/>
+    {# <link href="{% static 'teamhermes/css/checkboxstyles.css' %}" rel="stylesheet"/>#}
+
 {% endblock %}
 
 {% block scripts %}

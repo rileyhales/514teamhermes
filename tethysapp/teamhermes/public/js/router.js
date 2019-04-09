@@ -197,7 +197,6 @@ $(document).ready(function () {
 
             console.log("Drawing Shape");
             const polygon_feature = data.value.features[0];
-            console.log(polygon_feature);
             polygon_feature.symbol = fillSymbol;
             graphicsLayer.add(polygon_feature);
 

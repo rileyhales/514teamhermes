@@ -30,7 +30,7 @@ input[type=checkbox].css-checkbox + label.css-label {
 	line-height:15px;
 	background-repeat:no-repeat;
 	background-position: 0 0;
-	font-size:15px;
+	font-size:10px;
 	vertical-align:middle;
 	cursor:pointer;
 }
@@ -86,7 +86,7 @@ input[type=checkbox].css-checkbox.med + label.css-label.med {
 	line-height:17px;
 	background-repeat:no-repeat;
 	background-position: 0 0;
-	font-size:15px;
+	font-size:10px;
 	vertical-align:middle;
     cursor:pointer;
 }
@@ -101,7 +101,7 @@ input[type=checkbox].css-checkbox.sme + label.css-label.sme {
 	line-height:16px;
 	background-repeat:no-repeat;
 	background-position: 0 0;
-	font-size:15px;
+	font-size:10px;
 	vertical-align:middle;
     cursor:pointer;
 }
@@ -117,7 +117,7 @@ input[type=checkbox].css-checkbox.lrg + label.css-label.lrg {
 	line-height:20px;
 	background-repeat:no-repeat;
 	background-position: 0 0;
-	font-size:15px;
+	font-size:10px;
 	vertical-align:middle;
     cursor:pointer;
 }
