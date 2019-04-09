@@ -171,13 +171,13 @@ $(document).ready(function () {
                     "Input_Locations": featureSet,
                 };
 
-                if ($("#medical")) {
+                if ($("#medical").is(":checked")) {
                     gpems.submitJob(params).then(completeCallback_ems, errBack, statusCallback);
                 }
-                if ($("#fire")) {
+                if ($("#fire").is(":checked")) {
                     gpfire.submitJob(params).then(completeCallback_fire, errBack, statusCallback);
                 }
-                if ($("#police")) {
+                if ($("#police").is(":checked")) {
                     gppolice.submitJob(params).then(completeCallback_police, errBack, statusCallback);
                 }
             }
