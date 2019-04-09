@@ -143,11 +143,9 @@ $(document).ready(function () {
             const lon = parseFloat($("#lon").text().substr(13));
 
             if (isNaN(lat) && isNaN(lon)) {  // User did not click a point
-
                 alert("Please place a point on the map by clicking it.");
-            // } else if (all the checkboxes are false) {
-            //     alert("Please choose at least one emergency service to route")
-            // }
+            } else if (!($("#medical").is(":checked")) && !($("#fire").is(":checked")) && !($("#police").is(":checked"))) {
+                alert("Please choose at least one emergency service to route");
             } else {  // Run the tool
 
                 $("#loader").fadeIn();
