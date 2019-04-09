@@ -202,6 +202,7 @@ $(document).ready(function () {
         }
 
         function drawResultErrBack(err) {
+            alert("One of the services failed to route correctly, please review the console for details then try again");
             console.log("draw result error: ", err);
             $("#loader").fadeOut();
         }
