@@ -84,16 +84,6 @@ $(document).ready(function () {
             width: 5,
         };
 
-        // Geoprocessing service url
-        const gpUrl = "http://geoserver2.byu.edu/arcgis/rest/services/TeamHermes/NetworkAnalystEMS/GPServer/NetworkAnalystEMS";
-
-        // create a new Geoprocessor
-        const gp = new Geoprocessor(gpUrl);
-        // define output spatial reference
-        gp.outSpatialReference = { // autocasts as new SpatialReference()
-            wkid: 102100 //EPSG3857
-        };
-
         //add map click function
         view.on("click", addPoint);
 
@@ -120,6 +110,25 @@ $(document).ready(function () {
             $("#lon").html("<p style='margin-left: 15px'>- Longitude: " + lon + "</p>");
         }
 
+        // links to each of the 3 geoprocessing services
+        const ems_gpurl = "http://geoserver2.byu.edu/arcgis/rest/services/TeamHermes/NetworkAnalystEMS/GPServer/NetworkAnalystEMS";
+        const fire_gpurl = "http://geoserver2.byu.edu/arcgis/rest/services/TeamHermes/NetworkAnalystfirerouter/GPServer/NetworkAnalystfirerouter";
+        const polic_gpurl = "http://geoserver2.byu.edu/arcgis/rest/services/TeamHermes/NetworkAnalystpolicerouter/GPServer/NetworkAnalystpolicerouter";
+
+        // create a new Geoprocessor and spatial reference for each service
+        const gpems = new Geoprocessor(ems_gpurl);
+        gpems.outSpatialReference = { // autocasts as new SpatialReference()
+            wkid: 102100 //EPSG3857
+        };
+        const gpfire = new Geoprocessor(fire_gpurl);
+        gpfire.outSpatialReference = { // autocasts as new SpatialReference()
+            wkid: 102100 //EPSG3857
+        };
+        const gppolice = new Geoprocessor(polic_gpurl);
+        gppolice.outSpatialReference = { // autocasts as new SpatialReference()
+            wkid: 102100 //EPSG3857
+        };
+
         // On click event for the Analyze button
         $(document).ready(function () {
             $("#process-request").click(function () {
@@ -136,7 +145,9 @@ $(document).ready(function () {
             if (isNaN(lat) && isNaN(lon)) {  // User did not click a point
 
                 alert("Please place a point on the map by clicking it.");
-
+            // } else if (all the checkboxes are false) {
+            //     alert("Please choose at least one emergency service to route")
+            // }
             } else {  // Run the tool
 
                 $("#loader").fadeIn();
@@ -160,13 +171,26 @@ $(document).ready(function () {
                     "Input_Locations": featureSet,
                 };
 
-                gp.submitJob(params).then(completeCallback, errBack, statusCallback);
-
+                if ($("#medical")) {
+                    gpems.submitJob(params).then(completeCallback_ems, errBack, statusCallback);
+                }
+                if ($("#fire")) {
+                    gpfire.submitJob(params).then(completeCallback_fire, errBack, statusCallback);
+                }
+                if ($("#police")) {
+                    gppolice.submitJob(params).then(completeCallback_police, errBack, statusCallback);
+                }
             }
         }
 
-        function completeCallback(result) {
-            gp.getResultData(result.jobId, "Routes").then(drawResult, drawResultErrBack);
+        function completeCallback_ems(result) {
+            gpems.getResultData(result.jobId, "Routes").then(drawResult, drawResultErrBack);
+        }
+        function completeCallback_fire(result) {
+            gpfire.getResultData(result.jobId, "Routes").then(drawResult, drawResultErrBack);
+        }
+        function completeCallback_police(result) {
+            gppolice.getResultData(result.jobId, "Routes").then(drawResult, drawResultErrBack);
         }
 
         function drawResult(data) {
