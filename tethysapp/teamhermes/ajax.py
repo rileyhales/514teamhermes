@@ -11,7 +11,7 @@ def save_graphics_layer(request):
     current_user = request.user
     user_id = current_user.id
 
-    json_body = json.loads(request.body)
+    json_body = json.loads(request.body.decode('utf-8'))
 
     Session = app.get_persistent_store_database('primary_db', as_sessionmaker=True)
     session = Session()
