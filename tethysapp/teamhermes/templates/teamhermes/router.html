@@ -2,7 +2,17 @@
 {% load tethys_gizmos %}
 
 {% block app_content %}
-    <div id="viewDiv" style="padding: 0; margin: 0; height: 550px; width: 100%;"></div>
+    <div id="viewDiv" style="padding: 0; margin: 0; height: 550px; width: 100%;">
+        <div id="line-button" class="esri-widget esri-widget--button esri-interactive" title="Draw polyline">
+            <span class="esri-icon-polyline"></span>
+        </div>
+        <div id="point-button" class="esri-widget esri-widget--button esri-interactive" title="Draw point">
+            <span class="esri-icon-blank-map-pin"></span>
+        </div>
+        <div id="erase-button" class="esri-widget esri-widget--button esri-interactive" title="Draw point">
+            <span class="esri-icon-erase"></span>
+        </div>
+    </div>
 {% endblock %}
 
 
