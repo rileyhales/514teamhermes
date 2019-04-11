@@ -71,16 +71,16 @@ $(document).ready(function () {
 
         //////////////////////////////////////////////////////////////////////////// ADD DRAWING LAYERS
         const pointLayer = new GraphicsLayer({
-            title: "Results Layer"
+            title: "Incident Location"
         });
-        const obstructionLayer = new GraphicsLayer({
-            title: "User Drawn Obstructions"
+        const obstructionsLayer = new GraphicsLayer({
+            title: "Obstructions drawn by the user"
         });
         const resultsLayer = new GraphicsLayer({
-            title: "User Drawn Obstructions"
+            title: "Routes to Take"
         });
         map.add(pointLayer);
-        map.add(obstructionLayer);
+        // map.add(obstructionsLayer);
         map.add(resultsLayer);
 
         // add the legend to the map
@@ -130,6 +130,8 @@ $(document).ready(function () {
         $("#erase-button").click(function() {
             view.graphics.removeAll();
             pointLayer.removeAll();
+            obstructionsLayer.removeAll();
+            resultsLayer.removeAll();
         });
 
         //////////////////////////////////////////////////////////////////////////// FUNCTIONS FOR DRAWING A POLYLINE
@@ -147,8 +149,10 @@ $(document).ready(function () {
             }
         }
         // create a new graphic presenting the polyline that is being drawn on the view
+        const blockage_featureSet = new FeatureSet();
         function createGraphic(event) {
             view.graphics.removeAll();
+            obstructionsLayer.removeAll();
             // a graphic representing the polyline that is being drawn
             const graphic = new Graphic({
                 geometry: {
@@ -164,6 +168,11 @@ $(document).ready(function () {
                     join: "round"
                 }
             });
+            obstructionsLayer.add(graphic);
+            let blockGraphicContainer = [];
+            blockGraphicContainer.push(graphic);
+            blockage_featureSet.features = blockGraphicContainer;
+
             // check if the polyline intersects itself.
             const intersectingSegment = getIntersectingSegment(graphic.geometry);
             // Add a new graphic for the intersecting segment.
@@ -269,7 +278,6 @@ $(document).ready(function () {
             $("#lon").html("<p style='margin-left: 15px'>- Longitude: " + lon + "</p>");
         }
 
-
         //////////////////////////////////////////////////////////////////////////// GEOPROCESSING FUNCTIONS
         // links to each of the 3 geoprocessing services
         const ems_gpurl = "http://geoserver2.byu.edu/arcgis/rest/services/TeamHermes/NetworkAnalystEMS/GPServer/NetworkAnalystEMS";
@@ -305,7 +313,7 @@ $(document).ready(function () {
         });
 
         function processRequest() {
-
+            resultsLayer.removeAll();
 
             const lat = parseFloat($("#lat").text().substr(12));
             const lon = parseFloat($("#lon").text().substr(13));
@@ -327,14 +335,17 @@ $(document).ready(function () {
                     symbol: markerSymbol
                 });
                 pointLayer.add(inputGraphic);
-                const inputGraphicContainer = [];
-                inputGraphicContainer.push(inputGraphic);
-                const featureSet = new FeatureSet();
-                featureSet.features = inputGraphicContainer;
+                const pointGraphicContainer = [];
+                pointGraphicContainer.push(inputGraphic);
+                const location_featureSet = new FeatureSet();
+                location_featureSet.features = pointGraphicContainer;
 
+                console.log(location_featureSet);
+                console.log(blockage_featureSet);
                 // input parameters
                 const params = {
-                    "Input_Locations": featureSet,
+                    "Input_Locations": location_featureSet,
+                    "Blockage": blockage_featureSet,
                 };
 
                 if ($("#medical").is(":checked")) {
@@ -366,7 +377,7 @@ $(document).ready(function () {
             console.log("Drawing Shape");
             const polygon_feature = data.value.features[0];
             polygon_feature.symbol = fillSymbol;
-            pointLayer.add(polygon_feature);
+            resultsLayer.add(polygon_feature);
 
             $("#loader").fadeOut();
             $("#save-results").fadeIn();
