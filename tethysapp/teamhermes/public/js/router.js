@@ -398,6 +398,9 @@ $(document).ready(function () {
         }
 
         function saveResults() {
+
+            console.log(graphicsLayer.graphics);
+
             $.ajax({
                 url: "/apps/teamhermes/save_graphics_layer/", // the endpoint
                 type: "POST", // http method

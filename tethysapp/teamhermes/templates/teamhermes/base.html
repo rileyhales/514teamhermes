@@ -18,12 +18,15 @@
     {% url "teamhermes:proposal" as proposal_url %}
     {% url "teamhermes:mockup" as mockup_url %}
     {% url "teamhermes:router" as router_url %}
+    {% url "teamhermes:saved_results" as saved_results %}
 
     <li class="title">App Navigation</li>
     <li class="{% if request.path == home_url %}active{% endif %}"><a href="{{ home_url }}">Home</a></li>
     <li class="{% if request.path == proposal_url %}active{% endif %}"><a href="{{ proposal_url }}">Proposal</a></li>
     <li class="{% if request.path == mockup_url %}active{% endif %}"><a href="{{ mockup_url }}">Mockups</a></li>
     <li class="{% if request.path == router_url %}active{% endif %}"><a href="{{ router_url }}">Router</a></li>
+    <li class="{% if request.path == saved_results %}active{% endif %}"><a href="{{ saved_results }}">Saved Results</a>
+    </li>
 
     {# Buttons for the Router Page #}
     {% if request.path == router_url %}
@@ -84,21 +87,34 @@
 
     {% endif %}
 
+    {# Controls for the Saved Results Page #}
+    {% if request.path == saved_results %}
+
+        <br><br>
+        <p style="margin-left: 20px">Choose an analysis</p>
+
+        <div id="radio-options" style="margin-left: 20px">
+            {% for date in date_list %}
+                <div class="pretty p-default p-thick p-pulse">
+                    <input type="radio" name="options" id="options" value="{{ date.1 }}"/>
+                    <div class="state p-danger">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>{{ date.0 }}</label>
+                    </div>
+                </div>
+                <br>
+            {% endfor %}
+        </div>
+
+    {% endif %}
+
+
 {% endblock %}
 
 {% block app_content %}
 {% endblock %}
 
 {% block app_actions %}
-
-    {% url "teamhermes:home" as home_url %}
-    {% url "teamhermes:proposal" as proposal_url %}
-    {% url "teamhermes:mockup" as mockup_url %}
-    {% url "teamhermes:router" as router_url %}
-
-    {% if request.path == router_url %}
-
-    {% endif %}
 
 {% endblock %}
 
@@ -119,9 +135,14 @@
 
     {# Conditional Script Sources#}
     {% url 'teamhermes:router' as router %}
+    {% url "teamhermes:saved_results" as saved_results %}
 
     {% if request.path == router %}
         <script src="{% static 'teamhermes/js/router.js' %}" type="text/javascript"></script>
+    {% endif %}
+
+    {% if request.path == saved_results %}
+        <script src="{% static 'teamhermes/js/saved_results.js' %}" type="text/javascript"></script>
     {% endif %}
 
 {% endblock %}

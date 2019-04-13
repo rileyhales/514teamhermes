@@ -46,11 +46,23 @@ class Teamhermes(TethysAppBase):
                 url='teamhermes/router',
                 controller='teamhermes.controllers.router'
             ),
+            UrlMap(
+                name='saved_results',
+                url='teamhermes/saved_results',
+                controller='teamhermes.controllers.saved_results'
+            ),
 
             # Ajax Maps
-            UrlMap(name='save_graphics_layer',
-                   url='teamhermes/save_graphics_layer',
-                   controller='teamhermes.ajax.save_graphics_layer'),
+            UrlMap(
+                name='save_graphics_layer',
+                url='teamhermes/save_graphics_layer',
+                controller='teamhermes.ajax.save_graphics_layer'
+            ),
+            UrlMap(
+                name='retrieve_data',
+                url='teamhermes/retrieve_data',
+                controller='teamhermes.ajax.retrieve_data'
+            ),
         )
 
         return url_maps
