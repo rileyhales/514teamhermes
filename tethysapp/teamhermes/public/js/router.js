@@ -399,16 +399,21 @@ $(document).ready(function () {
 
         function saveResults() {
 
-            console.log(graphicsLayer.graphics);
+            console.log(resultsLayer.graphics);
+            console.log(pointLayer.graphics);
+
+            const allResults = resultsLayer.graphics.concat(pointLayer.graphics);
 
             $.ajax({
                 url: "/apps/teamhermes/save_graphics_layer/", // the endpoint
                 type: "POST", // http method
-                data: JSON.stringify(pointLayer.graphics), // data sent with the post request, the form data from above
+                data: JSON.stringify(allResults), // data sent with the post request, the form data from above
                 dataType: "json",
 
                 // handle a successful response
                 success: function (resp) {
+                    console.log(resp);
+
                     if (resp.status === "success") {
                         $("#save-results-status").html(`<p style="margin-left: 15px">Results Saved Successfully</p>`)
                     } else {

@@ -98,54 +98,53 @@ $(document).ready(function () {
                 success: function (resp) {
                     graphicsLayer.removeAll();
 
-                    console.log(resp.graphics);
+                    let pointArray = [];
+                    let polylineArray = [];
+                    for (let i = 0; i < resp.graphics.length; i++) {
+                        if (resp.graphics[i]["layerType"] === "point") {
+                            let point = new Point({
+                                longitude: resp.graphics[i].geometry.x,
+                                latitude: resp.graphics[i].geometry.y,
+                            });
 
-                    const point1 = new Point({
-                        longitude: resp.graphics[0].geometry.x,
-                        latitude: resp.graphics[0].geometry.y,
-                    });
+                            const symbol = SimpleMarkerSymbol.fromJSON(resp.graphics[i].symbol);
 
-                    const symbol1 = SimpleMarkerSymbol.fromJSON(resp.graphics[0].symbol);
+                            let pointGraphic = new Graphic({
+                                geometry: point,
+                                symbol: symbol,
+                            });
 
-                    const pointGraphic1 = new Graphic({
-                        geometry: point1,
-                        symbol: symbol1,
-                    });
-
-                    const polyline = new Polyline({
-                        paths: resp.graphics[2].geometry.paths[0],
-                        spatialReference: {latestWkid: 3857, wkid: 102100},
-
-                    });
-
-                    console.log(polyline.paths);
-
-                    const lineSymbol = new SimpleLineSymbol({
-                        color: [255, 0, 0, 0.5],
-                        width: 5,
-                    });
-
-                    // Create a line graphic
-                    const polylineGraphic = new Graphic({
-                        geometry: polyline,
-                        symbol: lineSymbol
-                    });
+                            pointArray.push(pointGraphic);
+                        } else {
+                            let polyline = new Polyline({
+                                paths: resp.graphics[i].geometry.paths[0],
+                                spatialReference: resp.graphics[i].geometry.spatialReference,
+                            });
+                            let lineSymbol = new SimpleLineSymbol({
+                                color: [255, 0, 0, 0.5],
+                                width: 5,
+                            });
+                            let polylineGraphic = new Graphic({
+                                geometry: polyline,
+                                symbol: lineSymbol
+                            });
+                            polylineArray.push(polylineGraphic);
+                        }
+                    }
 
                     // Add the graphics to the view
-                    graphicsLayer.add(pointGraphic1);
-                    graphicsLayer.add(polylineGraphic);
+                    for (let pointObject of pointArray) {
+                        graphicsLayer.add(pointObject);
+                    }
+                    for (let polylineObject of polylineArray) {
+                        graphicsLayer.add(polylineObject);
+                    }
                 },
                 // handle a non-successful response
                 error: function (xhr, errmsg, err) {
                     console.log(xhr.status + ": " + xhr.responseText);
                 }
             });
-
         });
-
     });
 });
-
-
-// Helper Functions
-

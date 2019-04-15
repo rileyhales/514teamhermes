@@ -14,6 +14,12 @@ def save_graphics_layer(request):
 
     json_body = json.loads(request.body.decode('utf-8'))
 
+    for layer in json_body:
+        if "x" in layer["geometry"].keys():
+            layer["layerType"] = "point"
+        else:
+            layer["layerType"] = "polyline"
+
     Session = app.get_persistent_store_database('primary_db', as_sessionmaker=True)
     session = Session()
     num_graphics_user = session.query(Graphics).filter(Graphics.user_id == user_id).count()
