@@ -16,3 +16,40 @@
 {% endblock %}
 
 
+{% block header_buttons %}
+  <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
+    <a data-toggle="modal" data-target="#help-modal"><span class="glyphicon glyphicon-question-sign"></span></a>
+  </div>
+{% endblock %}
+{# Use the after_app_content block for modals #}
+{% block after_app_content %}
+  <!-- Example Modal -->
+  <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-label">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h5 class="modal-title" id="help-modal-label">Router Help</h5>
+        </div>
+        <div class="modal-body">
+            <p>Polyline Button: Allows the user to draw blockages on the map.</p>
+            <img src="../../../static/teamhermes/images/poly.png"></img>
+            <p>Point Button: Allows the user to select a location on the map. This location will be used when routes are calculated and will be the destination of the routes. Only one point can be chosen at a time.</p>
+            <img src="../../../static/teamhermes/images/point.png"></img>
+            <p>Erase Button: Clears points and polylines</p>
+            <img src="../../../static/teamhermes/images/erase.png"></img>
+            <p>Selections Check Boxes: Allows the user to select which emergency responders are desired.</p>
+            <img src="../../../static/teamhermes/images/pick.png"></img>
+            <p>Analyze Button: Takes inputs and creates routes. Routes that are created are the shortest routes from responder locations to the point selected by the user while also accounting for created blockages.</p>
+            <img src="../../../static/teamhermes/images/analyze.png"></img>
+            <p>Save Button: Saves output routes to a database that can be accessed using the "Saved Results" tab</p>
+            <img src="../../../static/teamhermes/images/save.png"></img>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
