@@ -5,6 +5,7 @@ import json
 import datetime
 from .app import Teamhermes as app
 import traceback
+from pprint import pprint
 
 
 @login_required()
@@ -14,11 +15,14 @@ def save_graphics_layer(request):
 
     json_body = json.loads(request.body.decode('utf-8'))
 
-    for layer in json_body:
+    for layer in json_body["results"]:
         if "x" in layer["geometry"].keys():
             layer["layerType"] = "point"
         else:
             layer["layerType"] = "polyline"
+
+    if json_body["blockage"]:
+        json_body["results"][-1]["isBlockage"] = True
 
     Session = app.get_persistent_store_database('primary_db', as_sessionmaker=True)
     session = Session()
@@ -26,7 +30,7 @@ def save_graphics_layer(request):
     session.close()
 
     if num_graphics_user <= 10:
-        store_graphics(json_body, user_id, datetime.datetime.now())
+        store_graphics(json_body["results"], user_id, datetime.datetime.now())
         return JsonResponse({"status": "success"})
     else:
         return JsonResponse({"status": "fail", "error_message": "Users has reached limit for saved analyses."})

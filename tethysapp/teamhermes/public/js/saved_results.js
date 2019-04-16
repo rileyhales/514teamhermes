@@ -120,10 +120,22 @@ $(document).ready(function () {
                                 paths: resp.graphics[i].geometry.paths[0],
                                 spatialReference: resp.graphics[i].geometry.spatialReference,
                             });
-                            let lineSymbol = new SimpleLineSymbol({
-                                color: [255, 0, 0, 0.5],
-                                width: 5,
-                            });
+
+                            let lineSymbol;
+
+                            if ("isBlockage" in resp.graphics[i]) {
+                                lineSymbol = new SimpleLineSymbol({
+                                    color: [4, 90, 141],
+                                    width: 4,
+                                    cap: "round",
+                                    join: "round"
+                                })
+                            } else {
+                                lineSymbol = new SimpleLineSymbol({
+                                    color: [255, 0, 0, 0.5],
+                                    width: 5,
+                                });
+                            }
                             let polylineGraphic = new Graphic({
                                 geometry: polyline,
                                 symbol: lineSymbol

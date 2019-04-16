@@ -402,12 +402,18 @@ $(document).ready(function () {
             console.log(resultsLayer.graphics);
             console.log(pointLayer.graphics);
 
-            const allResults = resultsLayer.graphics.concat(pointLayer.graphics);
+            console.log(blockage_featureSet.features);
+            let blockageFeatureLength = blockage_featureSet.features.length;
+
+            let allResults = resultsLayer.graphics.concat(pointLayer.graphics, blockage_featureSet.features);
+
+            let isBlockage;
+            isBlockage = blockageFeatureLength > 0;
 
             $.ajax({
                 url: "/apps/teamhermes/save_graphics_layer/", // the endpoint
                 type: "POST", // http method
-                data: JSON.stringify(allResults), // data sent with the post request, the form data from above
+                data: JSON.stringify({results: allResults, blockage: isBlockage}), // data sent with the post request, the form data from above
                 dataType: "json",
 
                 // handle a successful response
